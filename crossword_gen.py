@@ -12,18 +12,18 @@ TOTAL_COLS = 14
 SECRET_COL = 6
 
 ROWS = [
-    {"word": "NIEMAND", "start": 3, "song": "Niemand", "artist": "Susan & Freek", "spotifyId": None},
-    {"word": "GAANWEWEG", "start": 5, "song": "Gaan we weg", "artist": "Roxy Dekker & Ronnie Flex", "spotifyId": None},
-    {"word": "GASOLINA", "start": 0, "song": "Gasolina", "artist": "DIKKE", "spotifyId": None},
-    {"word": "THECURE", "start": 0, "song": "The Cure", "artist": "Olivia Rodrigo", "spotifyId": None},
-    {"word": "BABY", "start": 6, "song": "Baby", "artist": "Justin Bieber", "spotifyId": None},
-    {"word": "PILE", "start": 4, "song": "Pile", "artist": "Mauvais Djo", "spotifyId": None},
-    {"word": "HOUSEWIFE", "start": 4, "song": "Housewife", "artist": "Tate McRae", "spotifyId": None},
-    {"word": "CASSANDRA", "start": 4, "song": "Cassandra", "artist": "Pommelien Thijs", "spotifyId": None},
-    {"word": "GIRLS", "start": 2, "song": "Pretty Girls", "artist": "Frenna", "spotifyId": None},
-    {"word": "DUREGEINTJE", "start": 3, "song": "Dure Geintje", "artist": "LASSA & Mensa", "spotifyId": None},
-    {"word": "ENERGIE", "start": 3, "song": "Energie", "artist": "Ronnie Flex", "spotifyId": None},
-    {"word": "OVERDOSIS", "start": 0, "song": "Overdosis", "artist": "Bilal Wahid", "spotifyId": None},
+    {"word": "NIEMAND", "start": 3, "song": "Niemand", "artist": "Suzan & Freek", "spotifyId": "2ZodgwtywVovNUNIcKDpbD"},
+    {"word": "GAANWEWEG", "start": 5, "song": "Gaan we weg", "artist": "Roxy Dekker & Ronnie Flex", "spotifyId": "6MUfSTr5MKTgX9oziFxx8c"},
+    {"word": "GASOLINA", "start": 0, "song": "Gasolina", "artist": "DIKKE", "spotifyId": "4BTiunrWSAMGCB4HuvqYJr"},
+    {"word": "THECURE", "start": 0, "song": "The Cure", "artist": "Olivia Rodrigo", "spotifyId": "55pBIZO1cqoldeqpp5WR7H"},
+    {"word": "BABY", "start": 6, "song": "Baby", "artist": "Justin Bieber", "spotifyId": "6epn3r7S14KUqlReYr77hA"},
+    {"word": "PILE", "start": 4, "song": "Pile", "artist": "Mauvais Djo", "spotifyId": "0PMhBcbq0a5EDngAlVQLAy"},
+    {"word": "HOUSEWIFE", "start": 4, "song": "Housewife", "artist": "Tate McRae", "spotifyId": "2sFepQNyl1WjpROruP8bJ0"},
+    {"word": "CASSANDRA", "start": 4, "song": "Cassandra", "artist": "Pommelien Thijs", "spotifyId": "3bxhuc9hkpZpOJFHxq2qri"},
+    {"word": "GIRLS", "start": 2, "song": "Pretty Girls", "artist": "Frenna", "spotifyId": "4skvJoTBLEYUfS3Z1xvGjs"},
+    {"word": "DUREGEINTJE", "start": 3, "song": "Dure Geintje", "artist": "LASSA & Mensa", "spotifyId": "0LAQc7pyZaVxo7C6czJ7rz"},
+    {"word": "ENERGIE", "start": 3, "song": "Energie", "artist": "Ronnie Flex", "spotifyId": "1riPE3NCV1OBmSXqpYiMJY"},
+    {"word": "OVERDOSIS", "start": 0, "song": "Overdosis", "artist": "Bilal Wahid", "spotifyId": "1PHlNckjnBedkWSNhQ6nvr"},
 ]
 
 
