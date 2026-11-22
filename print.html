@@ -81,12 +81,6 @@
   .cell-spacer { visibility: hidden; }
   .cell-white { border-color: #c8906a; background: #fff9f0; }
   .cell-grey { border: 0.45mm solid var(--lantern); background: #e8a830; }
-  .row-clue {
-    margin-left: 3mm;
-    font-size: 7.5pt;
-    white-space: nowrap;
-  }
-  .clue-artist { color: var(--muted); }
   .footer {
     margin-top: 6mm;
     text-align: center;
@@ -122,18 +116,18 @@ const fallbackData = {
   totalCols: 14,
   secretCol: 6,
   rows: [
-    { length: 7, start: 3, artist: 'Suzan & Freek' },
-    { length: 9, start: 5, artist: 'Roxy Dekker & Ronnie Flex' },
-    { length: 8, start: 0, artist: 'DIKKE' },
-    { length: 7, start: 0, artist: 'Olivia Rodrigo' },
-    { length: 4, start: 6, artist: 'Justin Bieber' },
-    { length: 4, start: 4, artist: 'Mauvais Djo' },
-    { length: 9, start: 4, artist: 'Tate McRae' },
-    { length: 9, start: 4, artist: 'Pommelien Thijs' },
-    { length: 5, start: 2, artist: 'Frenna' },
-    { length: 11, start: 3, artist: 'LASSA & Mensa' },
-    { length: 7, start: 3, artist: 'Ronnie Flex' },
-    { length: 9, start: 0, artist: 'Bilal Wahid' },
+    { length: 7, start: 3 },
+    { length: 9, start: 5 },
+    { length: 8, start: 0 },
+    { length: 7, start: 0 },
+    { length: 4, start: 6 },
+    { length: 4, start: 4 },
+    { length: 9, start: 4 },
+    { length: 9, start: 4 },
+    { length: 5, start: 2 },
+    { length: 11, start: 3 },
+    { length: 7, start: 3 },
+    { length: 9, start: 0 },
   ],
 };
 
@@ -175,10 +169,6 @@ async function renderPrint() {
 
     puzzleRow.appendChild(gridRow);
 
-    const clue = document.createElement('div');
-    clue.className = 'row-clue';
-    clue.innerHTML = `<span class="clue-artist">${row.artist}</span>`;
-    puzzleRow.appendChild(clue);
     crossword.appendChild(puzzleRow);
   });
 
