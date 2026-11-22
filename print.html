@@ -51,6 +51,14 @@
     font-family: Verdana, Geneva, sans-serif;
     font-size: 24pt;
   }
+  .fire-row {
+    display: flex;
+    justify-content: center;
+    gap: 2mm;
+    margin-bottom: 1mm;
+    line-height: 1;
+  }
+  .fire-row span { font-size: 13pt; }
   .subtitle { margin: 4mm 0 0; color: var(--muted); font-size: 9pt; text-align: center; }
   .crossword { display: flex; flex-direction: column; gap: 1mm; }
   .puzzle-row { display: flex; align-items: center; justify-content: center; }
@@ -100,6 +108,7 @@
 <main class="sheet">
   <header>
     <h1>Wie zijn de Mechelaars?</h1>
+    <div class="fire-row" aria-hidden="true"><span>🔥</span><span>🔥</span><span>🔥</span></div>
   </header>
   <p class="subtitle">Scan de code - beluister elk liedje - schrijf de titel in het kruiswoordraadsel - de donkergrijze kolom verraadt het geheim</p>
   <a class="qr-link" href="https://dropping-sint-maarten.onrender.com/">
