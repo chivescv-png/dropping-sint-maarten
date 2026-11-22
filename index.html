@@ -16,7 +16,6 @@
   --cell-grey-fg:#1a0e00;
   --cell-white:  #fff9f0;
   --cell-border: #c8906a;
-  --secret-bg:   #fde8c0;
   --header-rule: #e8a830;
   --lantern:     #e07b00;
 }
@@ -32,7 +31,6 @@
     --cell-grey-fg:#fde8c0;
     --cell-white:  #281808;
     --cell-border: #6a3820;
-    --secret-bg:   #221008;
     --header-rule: #7a4a10;
     --lantern:     #d08020;
     color-scheme: dark;
@@ -49,7 +47,6 @@
   --cell-grey-fg:#fde8c0;
   --cell-white:  #281808;
   --cell-border: #6a3820;
-  --secret-bg:   #221008;
   --header-rule: #7a4a10;
   --lantern:     #d08020;
   color-scheme: dark;
@@ -230,58 +227,12 @@ header .sub {
   z-index: -1;
 }
 
-/* ── Secret word display ── */
-.secret-section {
-  margin-top: 32px;
-  text-align: center;
-}
-.secret-label {
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--fg-muted);
-  margin-bottom: 10px;
-  font-weight: 700;
-}
-.secret-row {
-  display: flex;
-  justify-content: center;
-  gap: 3px;
-  flex-wrap: wrap;
-}
-.secret-cell {
-  width: 34px;
-  height: 34px;
-  background: var(--secret-bg);
-  border: 1.5px solid var(--cell-border);
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  font-weight: 800;
-  color: var(--fg-muted);
-  font-family: 'Nunito', system-ui, sans-serif;
-  transition: background 0.25s, color 0.25s, border-color 0.25s;
-}
-.secret-cell.has-letter { color: var(--fg); }
-.reveal-msg {
-  margin-top: 14px;
-  font-size: 1.05rem;
-  font-family: 'Fredoka', 'Nunito', system-ui, sans-serif;
-  font-weight: 600;
-  color: var(--accent);
-  min-height: 1.5em;
-  transition: opacity 0.3s;
-}
-
 /* ── Print ── */
 @media print {
   body { background: white !important; color: black !important; }
   .cell-black { background: white !important; border: none !important; }
   .cell-grey  { background: #f0c060 !important; print-color-adjust: exact; }
   .cell-white { background: white !important; }
-  .reveal-msg { display: none; }
   .lantern-row { display: none; }
 }
 </style>
@@ -296,12 +247,6 @@ header .sub {
 
 <div class="crossword-scroll">
   <div class="crossword" id="cw"></div>
-</div>
-
-<div class="secret-section">
-  <div class="secret-label">Geheim woord</div>
-  <div class="secret-row" id="secretRow"></div>
-  <div class="reveal-msg" id="revealMsg"></div>
 </div>
 
 <div id="spotify-hidden" aria-hidden="true">
@@ -418,29 +363,6 @@ async function renderPuzzle() {
 
 const inputs = rows.map(() => new Array(TOTAL_COLS).fill(null));
 
-const secretCells = [];
-const secretRowEl = document.getElementById('secretRow');
-rows.forEach(() => {
-  const div = document.createElement('div');
-  div.className = 'secret-cell';
-  secretRowEl.appendChild(div);
-  secretCells.push(div);
-});
-
-function updateSecret() {
-  let allFilled = true;
-  rows.forEach((row, ri) => {
-    const inp = inputs[ri][SECRET_COL];
-    const val = inp ? inp.value.toUpperCase() : '';
-    const sc = secretCells[ri];
-    sc.textContent = val;
-    sc.classList.toggle('has-letter', !!val);
-    if (!val) allFilled = false;
-  });
-  document.getElementById('revealMsg').textContent =
-    allFilled ? '🏮 Alle gouden vakjes zijn ingevuld!' : '';
-}
-
 const cwEl = document.getElementById('cw');
 
 rows.forEach((row, ri) => {
@@ -479,7 +401,6 @@ rows.forEach((row, ri) => {
 
       inp.addEventListener('input', () => {
         inp.value = inp.value.toUpperCase().replace(/[^A-Z]/g, '').slice(-1);
-        updateSecret();
         if (inp.value && c < wordEnd) {
           const next = inputs[ri][c + 1];
           if (next) { next.focus(); next.select(); }
@@ -489,7 +410,7 @@ rows.forEach((row, ri) => {
       inp.addEventListener('keydown', e => {
         if (e.key === 'Backspace' && !inp.value && c > row.start) {
           const prev = inputs[ri][c - 1];
-          if (prev) { prev.value = ''; prev.focus(); prev.select(); updateSecret(); }
+          if (prev) { prev.value = ''; prev.focus(); prev.select(); }
         }
         if (e.key === 'ArrowRight' && c < wordEnd) {
           const next = inputs[ri][c + 1];
