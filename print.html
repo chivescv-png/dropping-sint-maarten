@@ -22,6 +22,8 @@
     font-family: 'Nunito', system-ui, sans-serif;
   }
   .sheet {
+    display: flex;
+    flex-direction: column;
     width: 190mm;
     min-height: 277mm;
     margin: 0 auto;
@@ -30,12 +32,14 @@
   }
   header { text-align: center; margin-bottom: 7mm; }
   .qr-link {
-    position: absolute;
-    left: 8mm;
-    top: 10mm;
+    position: static;
+    display: block;
+    width: max-content;
+    margin: auto auto 0;
     color: var(--muted);
     text-decoration: none;
     font-size: 6pt;
+    text-align: center;
   }
   .qr-link img {
     display: block;
@@ -73,11 +77,7 @@
     height: 8mm;
     border: 0.25mm solid transparent;
   }
-  .cell-black {
-    border-color: var(--ink);
-    background: var(--ink);
-    print-color-adjust: exact;
-  }
+  .cell-black { border-color: #e0d8d0; background: #fff; }
   .cell-white { border-color: #c8906a; background: #fff9f0; }
   .cell-grey { border: 0.45mm solid var(--lantern); background: #e8a830; }
   .row-clue {
@@ -86,24 +86,6 @@
     white-space: nowrap;
   }
   .clue-artist { color: var(--muted); }
-  .secret-section {
-    margin-top: 8mm;
-    text-align: center;
-  }
-  .secret-label {
-    margin-bottom: 2mm;
-    color: var(--muted);
-    font-size: 7pt;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-  }
-  .secret-row { display: flex; justify-content: center; gap: 1mm; }
-  .secret-cell {
-    width: 8mm;
-    height: 8mm;
-    border: 0.25mm solid #c8906a;
-    background: #fde8c0;
-  }
   .footer {
     margin-top: 6mm;
     text-align: center;
@@ -123,21 +105,17 @@
 <body>
 <main class="sheet">
   <header>
-    <a class="qr-link" href="https://dropping-sint-maarten.onrender.com/">
-      <img src="dropping-kruiswoord-qr.png" alt="QR-code naar de online muziekpuzzel">
-      Scan voor de puzzel
-    </a>
     <div class="lantern-row">🏮 🕯️ 🏮</div>
     <p class="eyebrow">Dropping · Muziekpuzzel</p>
     <h1>Sint Maarten gaat op stap</h1>
     <p class="subtitle">Vul de liedjes in - de gouden kolom verraadt het geheim</p>
   </header>
   <div class="crossword" id="crossword"></div>
-  <section class="secret-section">
-    <div class="secret-label">Geheim woord</div>
-    <div class="secret-row" id="secretRow"></div>
-  </section>
   <p class="footer">Schrijf in elk vakje een letter. De gouden kolom vormt samen het geheim woord.</p>
+  <a class="qr-link" href="https://dropping-sint-maarten.onrender.com/">
+    <img src="dropping-kruiswoord-qr.png" alt="QR-code naar de online muziekpuzzel">
+    Scan voor de puzzel
+  </a>
 </main>
 <script>
 const fallbackData = {
@@ -204,12 +182,6 @@ async function renderPrint() {
     crossword.appendChild(puzzleRow);
   });
 
-  const secretRow = document.getElementById('secretRow');
-  data.rows.forEach(() => {
-    const cell = document.createElement('div');
-    cell.className = 'secret-cell';
-    secretRow.appendChild(cell);
-  });
 }
 
 renderPrint().catch(error => {
