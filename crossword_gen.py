@@ -12,18 +12,18 @@ TOTAL_COLS = 14
 SECRET_COL = 6
 
 ROWS = [
-    {"length": 7, "start": 3, "song": "Niemand", "artist": "Suzan & Freek", "spotifyId": "2ZodgwtywVovNUNIcKDpbD"},
-    {"length": 9, "start": 5, "song": "Gaan we weg", "artist": "Roxy Dekker & Ronnie Flex", "spotifyId": "6MUfSTr5MKTgX9oziFxx8c"},
-    {"length": 8, "start": 0, "song": "Gasolina", "artist": "DIKKE", "spotifyId": "4BTiunrWSAMGCB4HuvqYJr"},
-    {"length": 7, "start": 0, "song": "The Cure", "artist": "Olivia Rodrigo", "spotifyId": "55pBIZO1cqoldeqpp5WR7H"},
-    {"length": 4, "start": 6, "song": "Baby", "artist": "Justin Bieber", "spotifyId": "6epn3r7S14KUqlReYr77hA"},
-    {"length": 4, "start": 4, "song": "Pile", "artist": "Mauvais Djo", "spotifyId": "0PMhBcbq0a5EDngAlVQLAy"},
-    {"length": 9, "start": 4, "song": "Housewife", "artist": "Tate McRae", "spotifyId": "2sFepQNyl1WjpROruP8bJ0"},
-    {"length": 9, "start": 4, "song": "Cassandra", "artist": "Pommelien Thijs", "spotifyId": "3bxhuc9hkpZpOJFHxq2qri"},
-    {"length": 5, "start": 2, "song": "Pretty Girls", "artist": "Frenna", "spotifyId": "4skvJoTBLEYUfS3Z1xvGjs"},
-    {"length": 11, "start": 3, "song": "Dure Geintje", "artist": "LASSA & Mensa", "spotifyId": "0LAQc7pyZaVxo7C6czJ7rz"},
-    {"length": 7, "start": 3, "song": "Energie", "artist": "Ronnie Flex", "spotifyId": "1riPE3NCV1OBmSXqpYiMJY"},
-    {"length": 9, "start": 0, "song": "Overdosis", "artist": "Bilal Wahid", "spotifyId": "1PHlNckjnBedkWSNhQ6nvr"},
+    {"length": 7, "start": 3, "artist": "Suzan & Freek", "spotifyId": "2ZodgwtywVovNUNIcKDpbD"},
+    {"length": 9, "start": 5, "artist": "Roxy Dekker & Ronnie Flex", "spotifyId": "6MUfSTr5MKTgX9oziFxx8c"},
+    {"length": 8, "start": 0, "artist": "DIKKE", "spotifyId": "4BTiunrWSAMGCB4HuvqYJr"},
+    {"length": 7, "start": 0, "artist": "Olivia Rodrigo", "spotifyId": "55pBIZO1cqoldeqpp5WR7H"},
+    {"length": 4, "start": 6, "artist": "Justin Bieber", "spotifyId": "6epn3r7S14KUqlReYr77hA"},
+    {"length": 4, "start": 4, "artist": "Mauvais Djo", "spotifyId": "0PMhBcbq0a5EDngAlVQLAy"},
+    {"length": 9, "start": 4, "artist": "Tate McRae", "spotifyId": "2sFepQNyl1WjpROruP8bJ0"},
+    {"length": 9, "start": 4, "artist": "Pommelien Thijs", "spotifyId": "3bxhuc9hkpZpOJFHxq2qri"},
+    {"length": 5, "start": 2, "artist": "Frenna", "spotifyId": "4skvJoTBLEYUfS3Z1xvGjs"},
+    {"length": 11, "start": 3, "artist": "LASSA & Mensa", "spotifyId": "0LAQc7pyZaVxo7C6czJ7rz"},
+    {"length": 7, "start": 3, "artist": "Ronnie Flex", "spotifyId": "1riPE3NCV1OBmSXqpYiMJY"},
+    {"length": 9, "start": 0, "artist": "Bilal Wahid", "spotifyId": "1PHlNckjnBedkWSNhQ6nvr"},
 ]
 
 

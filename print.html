@@ -81,8 +81,6 @@
     font-size: 7.5pt;
     white-space: nowrap;
   }
-  .clue-song { font-weight: 700; }
-  .clue-dash { margin: 0 1mm; color: var(--muted); }
   .clue-artist { color: var(--muted); }
   .secret-section {
     margin-top: 8mm;
@@ -171,10 +169,7 @@ async function renderPrint() {
 
     const clue = document.createElement('div');
     clue.className = 'row-clue';
-    clue.innerHTML =
-      `<span class="clue-song">${row.song}</span>` +
-      `<span class="clue-dash">—</span>` +
-      `<span class="clue-artist">${row.artist}</span>`;
+    clue.innerHTML = `<span class="clue-artist">${row.artist}</span>`;
     puzzleRow.appendChild(clue);
     crossword.appendChild(puzzleRow);
   });

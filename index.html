@@ -199,8 +199,6 @@ header .sub {
   line-height: 34px;
   color: var(--fg);
 }
-.clue-song { font-weight: 700; }
-.clue-dash { color: var(--fg-muted); margin: 0 4px; }
 .clue-artist { color: var(--fg-muted); font-size: 12px; font-weight: 500; }
 .clue-player {
   appearance: none;
@@ -315,18 +313,18 @@ const fallbackData = {
   totalCols: 14,
   secretCol: 6,
   rows: [
-    { length: 7, start: 3, song: 'Niemand', artist: 'Suzan & Freek', spotifyId: '2ZodgwtywVovNUNIcKDpbD' },
-    { length: 9, start: 5, song: 'Gaan we weg', artist: 'Roxy Dekker & Ronnie Flex', spotifyId: '6MUfSTr5MKTgX9oziFxx8c' },
-    { length: 8, start: 0, song: 'Gasolina', artist: 'DIKKE', spotifyId: '4BTiunrWSAMGCB4HuvqYJr' },
-    { length: 7, start: 0, song: 'The Cure', artist: 'Olivia Rodrigo', spotifyId: '55pBIZO1cqoldeqpp5WR7H' },
-    { length: 4, start: 6, song: 'Baby', artist: 'Justin Bieber', spotifyId: '6epn3r7S14KUqlReYr77hA' },
-    { length: 4, start: 4, song: 'Pile', artist: 'Mauvais Djo', spotifyId: '0PMhBcbq0a5EDngAlVQLAy' },
-    { length: 9, start: 4, song: 'Housewife', artist: 'Tate McRae', spotifyId: '2sFepQNyl1WjpROruP8bJ0' },
-    { length: 9, start: 4, song: 'Cassandra', artist: 'Pommelien Thijs', spotifyId: '3bxhuc9hkpZpOJFHxq2qri' },
-    { length: 5, start: 2, song: 'Pretty Girls', artist: 'Frenna', spotifyId: '4skvJoTBLEYUfS3Z1xvGjs' },
-    { length: 11, start: 3, song: 'Dure Geintje', artist: 'LASSA & Mensa', spotifyId: '0LAQc7pyZaVxo7C6czJ7rz' },
-    { length: 7, start: 3, song: 'Energie', artist: 'Ronnie Flex', spotifyId: '1riPE3NCV1OBmSXqpYiMJY' },
-    { length: 9, start: 0, song: 'Overdosis', artist: 'Bilal Wahid', spotifyId: '1PHlNckjnBedkWSNhQ6nvr' },
+    { length: 7, start: 3, artist: 'Suzan & Freek', spotifyId: '2ZodgwtywVovNUNIcKDpbD' },
+    { length: 9, start: 5, artist: 'Roxy Dekker & Ronnie Flex', spotifyId: '6MUfSTr5MKTgX9oziFxx8c' },
+    { length: 8, start: 0, artist: 'DIKKE', spotifyId: '4BTiunrWSAMGCB4HuvqYJr' },
+    { length: 7, start: 0, artist: 'Olivia Rodrigo', spotifyId: '55pBIZO1cqoldeqpp5WR7H' },
+    { length: 4, start: 6, artist: 'Justin Bieber', spotifyId: '6epn3r7S14KUqlReYr77hA' },
+    { length: 4, start: 4, artist: 'Mauvais Djo', spotifyId: '0PMhBcbq0a5EDngAlVQLAy' },
+    { length: 9, start: 4, artist: 'Tate McRae', spotifyId: '2sFepQNyl1WjpROruP8bJ0' },
+    { length: 9, start: 4, artist: 'Pommelien Thijs', spotifyId: '3bxhuc9hkpZpOJFHxq2qri' },
+    { length: 5, start: 2, artist: 'Frenna', spotifyId: '4skvJoTBLEYUfS3Z1xvGjs' },
+    { length: 11, start: 3, artist: 'LASSA & Mensa', spotifyId: '0LAQc7pyZaVxo7C6czJ7rz' },
+    { length: 7, start: 3, artist: 'Ronnie Flex', spotifyId: '1riPE3NCV1OBmSXqpYiMJY' },
+    { length: 9, start: 0, artist: 'Bilal Wahid', spotifyId: '1PHlNckjnBedkWSNhQ6nvr' },
   ],
 };
 
@@ -376,13 +374,13 @@ window.onSpotifyIframeApiReady = (IFrameAPI) => {
 
 function toggleSpotify(row, button) {
   if (!row.spotifyId) {
-    const query = encodeURIComponent(`${row.song} ${row.artist}`);
+    const query = encodeURIComponent(row.artist);
     window.open(`https://open.spotify.com/search/${query}`, '_blank', 'noopener,noreferrer');
     return;
   }
 
   const uri = `spotify:track:${row.spotifyId}`;
-  if (currentWord === row.song) {
+  if (currentWord === row.spotifyId) {
     autoPlayPending = false;
     pendingUri = null;
     spotifyController?.pause();
@@ -408,7 +406,7 @@ function toggleSpotify(row, button) {
 
   button.textContent = '■';
   button.classList.add('playing');
-  currentWord = row.song;
+  currentWord = row.spotifyId;
   currentButton = button;
 }
 
@@ -524,15 +522,12 @@ rows.forEach((row, ri) => {
 
   const clueDiv = document.createElement('div');
   clueDiv.className = 'row-clue';
-  clueDiv.innerHTML =
-    `<span class="clue-song">${row.song}</span>` +
-    `<span class="clue-dash">—</span>` +
-    `<span class="clue-artist">${row.artist}</span>`;
+  clueDiv.innerHTML = `<span class="clue-artist">${row.artist}</span>`;
   const playerButton = document.createElement('button');
   playerButton.className = 'clue-player';
   playerButton.type = 'button';
-  playerButton.title = `Speel ${row.song} — ${row.artist}`;
-  playerButton.setAttribute('aria-label', `Speel ${row.song} door ${row.artist}`);
+  playerButton.title = `Speel liedje van ${row.artist}`;
+  playerButton.setAttribute('aria-label', `Speel liedje van ${row.artist}, rij ${ri + 1}`);
   playerButton.textContent = '▶';
   playerButton.addEventListener('click', () => toggleSpotify(row, playerButton));
   clueDiv.appendChild(playerButton);
