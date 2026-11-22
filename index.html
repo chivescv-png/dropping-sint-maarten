@@ -202,6 +202,35 @@ header .sub {
 .clue-song { font-weight: 700; }
 .clue-dash { color: var(--fg-muted); margin: 0 4px; }
 .clue-artist { color: var(--fg-muted); font-size: 12px; font-weight: 500; }
+.clue-player {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--accent);
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 34px;
+  margin-left: 8px;
+  padding: 0;
+  vertical-align: middle;
+}
+.clue-player:hover, .clue-player:focus-visible {
+  color: var(--accent2);
+  outline: none;
+}
+.clue-player.playing { color: var(--accent); }
+
+#spotify-hidden {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  width: 300px;
+  height: 80px;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  z-index: -1;
+}
 
 /* ── Secret word display ── */
 .secret-section {
@@ -283,27 +312,118 @@ header .sub {
   <div class="reveal-msg" id="revealMsg"></div>
 </div>
 
+<div id="spotify-hidden" aria-hidden="true">
+  <div id="spotify-embed-target"></div>
+</div>
+
 <script>
-const TOTAL_COLS = 14;
-const SECRET_COL = 6;
+const fallbackData = {
+  totalCols: 14,
+  secretCol: 6,
+  secretWord: 'MANEBLUSSERS',
+  rows: [
+    { word: 'NIEMAND', start: 3, song: 'Niemand', artist: 'Susan & Freek', spotifyId: null },
+    { word: 'GAANWEWEG', start: 5, song: 'Gaan we weg', artist: 'Roxy Dekker & Ronnie Flex', spotifyId: null },
+    { word: 'GASOLINA', start: 0, song: 'Gasolina', artist: 'DIKKE', spotifyId: null },
+    { word: 'THECURE', start: 0, song: 'The Cure', artist: 'Olivia Rodrigo', spotifyId: null },
+    { word: 'BABY', start: 6, song: 'Baby', artist: 'Justin Bieber', spotifyId: null },
+    { word: 'PILE', start: 4, song: 'Pile', artist: 'Mauvais Djo', spotifyId: null },
+    { word: 'HOUSEWIFE', start: 4, song: 'Housewife', artist: 'Tate McRae', spotifyId: null },
+    { word: 'CASSANDRA', start: 4, song: 'Cassandra', artist: 'Pommelien Thijs', spotifyId: null },
+    { word: 'GIRLS', start: 2, song: 'Pretty Girls', artist: 'Frenna', spotifyId: null },
+    { word: 'DUREGEINTJE', start: 3, song: 'Dure Geintje', artist: 'LASSA & Mensa', spotifyId: null },
+    { word: 'ENERGIE', start: 3, song: 'Energie', artist: 'Ronnie Flex', spotifyId: null },
+    { word: 'OVERDOSIS', start: 0, song: 'Overdosis', artist: 'Bilal Wahid', spotifyId: null },
+  ],
+};
 
-const rows = [
-  { word: 'NIEMAND',     start: 3, song: 'Niemand',       artist: 'Susan & Freek' },
-  { word: 'GAANWEWEG',   start: 5, song: 'Gaan we weg',   artist: 'Roxy Dekker & Ronnie Flex' },
-  { word: 'GASOLINA',    start: 0, song: 'Gasolina',      artist: 'DIKKE' },
-  { word: 'THECURE',     start: 0, song: 'The Cure',      artist: 'Olivia Rodrigo' },
-  { word: 'BABY',        start: 6, song: 'Baby',          artist: 'Justin Bieber' },
-  { word: 'PILE',        start: 4, song: 'Pile',          artist: 'Mauvais Djo' },
-  { word: 'HOUSEWIFE',   start: 4, song: 'Housewife',     artist: 'Tate McRae' },
-  { word: 'CASSANDRA',   start: 4, song: 'Cassandra',     artist: 'Pommelien Thijs' },
-  { word: 'GIRLS',       start: 2, song: 'Pretty Girls',  artist: 'Frenna' },
-  { word: 'DUREGEINTJE', start: 3, song: 'Dure Geintje',  artist: 'LASSA & Mensa' },
-  { word: 'ENERGIE',     start: 3, song: 'Energie',       artist: 'Ronnie Flex' },
-  { word: 'OVERDOSIS',   start: 0, song: 'Overdosis',     artist: 'Bilal Wahid' },
-];
+async function loadPuzzle() {
+  try {
+    const response = await fetch('crossword_data.json');
+    if (!response.ok) throw new Error('Could not load puzzle data');
+    return await response.json();
+  } catch (error) {
+    return fallbackData;
+  }
+}
 
-const secretWord = rows.map(r => r.word[SECRET_COL - r.start]).join('');
-// MANEBLUSSERS
+let spotifyController = null;
+let pendingUri = null;
+let currentWord = null;
+let currentButton = null;
+let autoPlayPending = false;
+
+window.onSpotifyIframeApiReady = (IFrameAPI) => {
+  IFrameAPI.createController(
+    document.getElementById('spotify-embed-target'),
+    { uri: 'spotify:track:49ul7T6QlHsbnwYYNXE87O', height: '80' },
+    (controller) => {
+      spotifyController = controller;
+      controller.addListener('playback_update', (event) => {
+        if (autoPlayPending && event.data.isPaused && !event.data.isBuffering) {
+          autoPlayPending = false;
+          controller.play();
+        }
+      });
+      if (pendingUri) {
+        autoPlayPending = true;
+        controller.loadUri(pendingUri);
+        pendingUri = null;
+      }
+    }
+  );
+};
+
+(function loadSpotifyIframeApi() {
+  const script = document.createElement('script');
+  script.src = 'https://open.spotify.com/embed/iframe-api/v1';
+  script.async = true;
+  document.head.appendChild(script);
+})();
+
+function toggleSpotify(row, button) {
+  if (!row.spotifyId) {
+    const query = encodeURIComponent(`${row.song} ${row.artist}`);
+    window.open(`https://open.spotify.com/search/${query}`, '_blank', 'noopener,noreferrer');
+    return;
+  }
+
+  const uri = `spotify:track:${row.spotifyId}`;
+  if (currentWord === row.word) {
+    autoPlayPending = false;
+    spotifyController?.pause();
+    button.textContent = '▶';
+    button.classList.remove('playing');
+    currentWord = null;
+    currentButton = null;
+    return;
+  }
+
+  if (currentButton) {
+    currentButton.textContent = '▶';
+    currentButton.classList.remove('playing');
+  }
+
+  if (spotifyController) {
+    autoPlayPending = true;
+    spotifyController.loadUri(uri);
+    spotifyController.play();
+  } else {
+    pendingUri = uri;
+  }
+
+  button.textContent = '■';
+  button.classList.add('playing');
+  currentWord = row.word;
+  currentButton = button;
+}
+
+async function renderPuzzle() {
+  const data = await loadPuzzle();
+  const TOTAL_COLS = data.totalCols;
+  const SECRET_COL = data.secretCol;
+  const rows = data.rows;
+  const secretWord = data.secretWord;
 
 const inputs = rows.map(() => new Array(TOTAL_COLS).fill(null));
 
@@ -422,8 +542,20 @@ rows.forEach((row, ri) => {
     `<span class="clue-song">${row.song}</span>` +
     `<span class="clue-dash">—</span>` +
     `<span class="clue-artist">${row.artist}</span>`;
+  const playerButton = document.createElement('button');
+  playerButton.className = 'clue-player';
+  playerButton.type = 'button';
+  playerButton.title = `Speel ${row.song} — ${row.artist}`;
+  playerButton.setAttribute('aria-label', `Speel ${row.song} door ${row.artist}`);
+  playerButton.textContent = '▶';
+  playerButton.addEventListener('click', () => toggleSpotify(row, playerButton));
+  clueDiv.appendChild(playerButton);
   puzzleRow.appendChild(clueDiv);
 
   cwEl.appendChild(puzzleRow);
 });
+
+}
+
+renderPuzzle();
 </script>

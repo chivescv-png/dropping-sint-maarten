@@ -1,0 +1,94 @@
+{
+  "title": "Sint Maarten gaat op stap",
+  "eyebrow": "Dropping · Muziekpuzzel",
+  "subtitle": "Vul de liedjes in - de gouden kolom verraadt het geheim",
+  "totalCols": 14,
+  "secretCol": 6,
+  "rows": [
+    {
+      "word": "NIEMAND",
+      "start": 3,
+      "song": "Niemand",
+      "artist": "Susan & Freek",
+      "spotifyId": null
+    },
+    {
+      "word": "GAANWEWEG",
+      "start": 5,
+      "song": "Gaan we weg",
+      "artist": "Roxy Dekker & Ronnie Flex",
+      "spotifyId": null
+    },
+    {
+      "word": "GASOLINA",
+      "start": 0,
+      "song": "Gasolina",
+      "artist": "DIKKE",
+      "spotifyId": null
+    },
+    {
+      "word": "THECURE",
+      "start": 0,
+      "song": "The Cure",
+      "artist": "Olivia Rodrigo",
+      "spotifyId": null
+    },
+    {
+      "word": "BABY",
+      "start": 6,
+      "song": "Baby",
+      "artist": "Justin Bieber",
+      "spotifyId": null
+    },
+    {
+      "word": "PILE",
+      "start": 4,
+      "song": "Pile",
+      "artist": "Mauvais Djo",
+      "spotifyId": null
+    },
+    {
+      "word": "HOUSEWIFE",
+      "start": 4,
+      "song": "Housewife",
+      "artist": "Tate McRae",
+      "spotifyId": null
+    },
+    {
+      "word": "CASSANDRA",
+      "start": 4,
+      "song": "Cassandra",
+      "artist": "Pommelien Thijs",
+      "spotifyId": null
+    },
+    {
+      "word": "GIRLS",
+      "start": 2,
+      "song": "Pretty Girls",
+      "artist": "Frenna",
+      "spotifyId": null
+    },
+    {
+      "word": "DUREGEINTJE",
+      "start": 3,
+      "song": "Dure Geintje",
+      "artist": "LASSA & Mensa",
+      "spotifyId": null
+    },
+    {
+      "word": "ENERGIE",
+      "start": 3,
+      "song": "Energie",
+      "artist": "Ronnie Flex",
+      "spotifyId": null
+    },
+    {
+      "word": "OVERDOSIS",
+      "start": 0,
+      "song": "Overdosis",
+      "artist": "Bilal Wahid",
+      "spotifyId": null
+    }
+  ],
+  "secretWord": "MANEBLUSSERS"
+}

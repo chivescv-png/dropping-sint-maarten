@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: dropping-sint-maarten
+    runtime: static
+    staticPublishPath: .
+    buildCommand: "python3 crossword_gen.py"
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: "public, max-age=3600"
