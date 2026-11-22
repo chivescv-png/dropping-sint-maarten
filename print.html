@@ -7,7 +7,6 @@
 <style>
   :root {
     --accent: #c0392b;
-    --lantern: #e07b00;
     --ink: #2c1a0a;
     --muted: #8a5a2e;
   }
@@ -71,8 +70,16 @@
     border: 0.25mm solid transparent;
   }
   .cell-spacer { visibility: hidden; }
-  .cell-white { border-color: #c8906a; background: #fff9f0; }
-  .cell-grey { border: 0.45mm solid var(--lantern); background: #e8a830; }
+  .cell-white {
+    border-color: #bdbdbd;
+    background: #e6e6e6;
+    print-color-adjust: exact;
+  }
+  .cell-grey {
+    border: 0.45mm solid #666;
+    background: #999;
+    print-color-adjust: exact;
+  }
   .footer {
     margin-top: 6mm;
     text-align: center;
