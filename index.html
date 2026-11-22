@@ -1,23 +1,14 @@
 <title>Wie zijn de Mechelaars?</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-/* Sint Maarten palette — lantern warmth: deep red, amber, warm white */
 :root {
   --bg:          #fdf6ec;
   --fg:          #2c1a0a;
   --fg-muted:    #8a5a2e;
   --accent:      #c0392b;
   --accent2:     #e07b00;
-  --cell-black:  #2c1a0a;
-  --cell-grey:   #e8a830;
-  --cell-grey-fg:#1a0e00;
-  --cell-white:  #fff9f0;
-  --cell-border: #c8906a;
   --header-rule: #e8a830;
-  --lantern:     #e07b00;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -26,13 +17,7 @@
     --fg-muted:    #b08050;
     --accent:      #e05040;
     --accent2:     #d08020;
-    --cell-black:  #100802;
-    --cell-grey:   #7a4a10;
-    --cell-grey-fg:#fde8c0;
-    --cell-white:  #281808;
-    --cell-border: #6a3820;
     --header-rule: #7a4a10;
-    --lantern:     #d08020;
     color-scheme: dark;
   }
 }
@@ -42,13 +27,7 @@
   --fg-muted:    #b08050;
   --accent:      #e05040;
   --accent2:     #d08020;
-  --cell-black:  #100802;
-  --cell-grey:   #7a4a10;
-  --cell-grey-fg:#fde8c0;
-  --cell-white:  #281808;
-  --cell-border: #6a3820;
   --header-rule: #7a4a10;
-  --lantern:     #d08020;
   color-scheme: dark;
 }
 
@@ -57,7 +36,7 @@
 body {
   background: var(--bg);
   color: var(--fg);
-  font-family: 'Nunito', system-ui, sans-serif;
+  font-family: Verdana, Geneva, sans-serif;
   padding-left:  max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
   padding-block: 32px;
@@ -71,7 +50,7 @@ header {
   margin-bottom: 32px;
 }
 h1 {
-  font-family: 'Fredoka', 'Nunito', system-ui, sans-serif;
+  font-family: Verdana, Geneva, sans-serif;
   font-size: clamp(1.9rem, 6vw, 3rem);
   color: var(--accent);
   margin: 0 0 6px;
@@ -92,108 +71,30 @@ header .sub {
   border-radius: 2px;
 }
 
-/* ── Crossword layout ── */
-.crossword-scroll { overflow-x: auto; }
-
-.crossword {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  width: max-content;
+.track-list {
+  max-width: 420px;
   margin: 0 auto;
+  padding-left: 2.5rem;
+  list-style: decimal;
+}
+.track-list li {
+  min-height: 48px;
+  margin-bottom: 6px;
+  padding-left: 8px;
+  border-bottom: 1px solid var(--fg-muted);
 }
 
-.puzzle-row {
-  display: flex;
-  align-items: center;
-}
-
-.row-num {
-  width: 26px;
-  text-align: right;
-  padding-right: 6px;
-  font-size: 11px;
-  color: var(--fg-muted);
-  flex-shrink: 0;
-  font-variant-numeric: tabular-nums;
-  line-height: 34px;
-  font-weight: 600;
-}
-
-.grid-row {
-  display: flex;
-  gap: 1.5px;
-}
-
-.cell {
-  width: 34px;
-  height: 34px;
-  flex-shrink: 0;
-  position: relative;
-}
-.cell-black {
-  background: var(--cell-black);
-  border-radius: 2px;
-}
-.cell-white {
-  background: var(--cell-white);
-  border: 1.5px solid var(--cell-border);
-  border-radius: 1px;
-}
-.cell-grey {
-  background: var(--cell-grey);
-  border: 1.5px solid var(--lantern);
-  border-radius: 1px;
-}
-.cell-white, .cell-grey {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.cell input {
-  width: 100%;
-  height: 100%;
-  border: none;
-  background: transparent;
-  text-align: center;
-  font-size: 14px;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: var(--fg);
-  outline: none;
-  padding: 0;
-  font-family: 'Nunito', system-ui, sans-serif;
-  caret-color: var(--accent);
-  -webkit-appearance: none;
-}
-.cell-grey input {
-  color: var(--cell-grey-fg);
-  font-weight: 800;
-}
-.cell input:focus {
-  background: rgba(192,57,43,0.10);
-}
-
-/* playback controls */
-.row-clue {
-  font-size: 13px;
-  white-space: nowrap;
-  padding-left: 10px;
-  line-height: 34px;
-  color: var(--fg);
-}
 .clue-player {
   appearance: none;
   border: 0;
   background: transparent;
   color: var(--accent);
   cursor: pointer;
-  font-size: 15px;
-  line-height: 34px;
-  margin-left: 0;
+  font: inherit;
+  font-size: 18px;
+  min-width: 44px;
+  min-height: 44px;
   padding: 0;
-  vertical-align: middle;
 }
 .clue-player:hover, .clue-player:focus-visible {
   color: var(--accent2);
@@ -213,24 +114,15 @@ header .sub {
   z-index: -1;
 }
 
-/* ── Print ── */
-@media print {
-  body { background: white !important; color: black !important; }
-  .cell-black { background: white !important; border: none !important; }
-  .cell-grey  { background: #f0c060 !important; print-color-adjust: exact; }
-  .cell-white { background: white !important; }
-}
 </style>
 
 <header>
   <h1>Wie zijn de Mechelaars?</h1>
-  <p class="sub">Vul de liedjes in. Druk op ▶ om een liedje te beluisteren. De gouden kolom verraadt het geheim.</p>
+  <p class="sub">Druk op ▶ bij een nummer om het liedje te beluisteren. Herken jij het?</p>
   <div class="header-rule"></div>
 </header>
 
-<div class="crossword-scroll">
-  <div class="crossword" id="cw"></div>
-</div>
+<ol class="track-list" id="track-list"></ol>
 
 <div id="spotify-hidden" aria-hidden="true">
   <div id="spotify-embed-target"></div>
@@ -238,21 +130,19 @@ header .sub {
 
 <script>
 const fallbackData = {
-  totalCols: 14,
-  secretCol: 6,
   rows: [
-    { length: 7, start: 3, artist: 'Suzan & Freek', spotifyId: '2ZodgwtywVovNUNIcKDpbD' },
-    { length: 9, start: 5, artist: 'Roxy Dekker & Ronnie Flex', spotifyId: '6MUfSTr5MKTgX9oziFxx8c' },
-    { length: 8, start: 0, artist: 'DIKKE', spotifyId: '4BTiunrWSAMGCB4HuvqYJr' },
-    { length: 7, start: 0, artist: 'Olivia Rodrigo', spotifyId: '55pBIZO1cqoldeqpp5WR7H' },
-    { length: 4, start: 6, artist: 'Justin Bieber', spotifyId: '6epn3r7S14KUqlReYr77hA' },
-    { length: 4, start: 4, artist: 'Mauvais Djo', spotifyId: '0PMhBcbq0a5EDngAlVQLAy' },
-    { length: 9, start: 4, artist: 'Tate McRae', spotifyId: '2sFepQNyl1WjpROruP8bJ0' },
-    { length: 9, start: 4, artist: 'Pommelien Thijs', spotifyId: '3bxhuc9hkpZpOJFHxq2qri' },
-    { length: 5, start: 2, artist: 'Frenna', spotifyId: '4skvJoTBLEYUfS3Z1xvGjs' },
-    { length: 11, start: 3, artist: 'LASSA & Mensa', spotifyId: '0LAQc7pyZaVxo7C6czJ7rz' },
-    { length: 7, start: 3, artist: 'Ronnie Flex', spotifyId: '1riPE3NCV1OBmSXqpYiMJY' },
-    { length: 9, start: 0, artist: 'Bilal Wahid', spotifyId: '1PHlNckjnBedkWSNhQ6nvr' },
+    { artist: 'Suzan & Freek', spotifyId: '2ZodgwtywVovNUNIcKDpbD' },
+    { artist: 'Roxy Dekker & Ronnie Flex', spotifyId: '6MUfSTr5MKTgX9oziFxx8c' },
+    { artist: 'DIKKE', spotifyId: '4BTiunrWSAMGCB4HuvqYJr' },
+    { artist: 'Olivia Rodrigo', spotifyId: '55pBIZO1cqoldeqpp5WR7H' },
+    { artist: 'Justin Bieber', spotifyId: '6epn3r7S14KUqlReYr77hA' },
+    { artist: 'Mauvais Djo', spotifyId: '0PMhBcbq0a5EDngAlVQLAy' },
+    { artist: 'Tate McRae', spotifyId: '2sFepQNyl1WjpROruP8bJ0' },
+    { artist: 'Pommelien Thijs', spotifyId: '3bxhuc9hkpZpOJFHxq2qri' },
+    { artist: 'Frenna', spotifyId: '4skvJoTBLEYUfS3Z1xvGjs' },
+    { artist: 'LASSA & Mensa', spotifyId: '0LAQc7pyZaVxo7C6czJ7rz' },
+    { artist: 'Ronnie Flex', spotifyId: '1riPE3NCV1OBmSXqpYiMJY' },
+    { artist: 'Bilal Wahid', spotifyId: '1PHlNckjnBedkWSNhQ6nvr' },
   ],
 };
 
@@ -338,108 +228,23 @@ function toggleSpotify(row, button) {
   currentButton = button;
 }
 
-async function renderPuzzle() {
-  const data = await loadPuzzle();
-  const TOTAL_COLS = data.totalCols;
-  const SECRET_COL = data.secretCol;
-  const rows = data.rows;
+async function renderPlaylist() {
+  const { rows } = await loadPuzzle();
+  const trackList = document.getElementById('track-list');
 
-const inputs = rows.map(() => new Array(TOTAL_COLS).fill(null));
-
-const cwEl = document.getElementById('cw');
-
-rows.forEach((row, ri) => {
-  const puzzleRow = document.createElement('div');
-  puzzleRow.className = 'puzzle-row';
-
-  const numDiv = document.createElement('div');
-  numDiv.className = 'row-num';
-  numDiv.textContent = ri + 1;
-  puzzleRow.appendChild(numDiv);
-
-  const gridRow = document.createElement('div');
-  gridRow.className = 'grid-row';
-
-  const wordEnd = row.start + row.length - 1;
-
-  for (let c = 0; c < TOTAL_COLS; c++) {
-    const cellDiv = document.createElement('div');
-    cellDiv.className = 'cell';
-
-    if (c < row.start || c > wordEnd) {
-      cellDiv.classList.add('cell-black');
-    } else {
-      const isSecret = c === SECRET_COL;
-      cellDiv.classList.add(isSecret ? 'cell-grey' : 'cell-white');
-
-      const inp = document.createElement('input');
-      inp.type = 'text';
-      inp.maxLength = 1;
-      inp.autocomplete = 'off';
-      inp.spellcheck = false;
-      inp.inputMode = 'text';
-      inp.setAttribute('aria-label', `Rij ${ri + 1}, cel ${c - row.start + 1}`);
-
-      inp.addEventListener('focus', () => inp.select());
-
-      inp.addEventListener('input', () => {
-        inp.value = inp.value.toUpperCase().replace(/[^A-Z]/g, '').slice(-1);
-        if (inp.value && c < wordEnd) {
-          const next = inputs[ri][c + 1];
-          if (next) { next.focus(); next.select(); }
-        }
-      });
-
-      inp.addEventListener('keydown', e => {
-        if (e.key === 'Backspace' && !inp.value && c > row.start) {
-          const prev = inputs[ri][c - 1];
-          if (prev) { prev.value = ''; prev.focus(); prev.select(); }
-        }
-        if (e.key === 'ArrowRight' && c < wordEnd) {
-          const next = inputs[ri][c + 1];
-          if (next) next.focus();
-        }
-        if (e.key === 'ArrowLeft' && c > row.start) {
-          const prev = inputs[ri][c - 1];
-          if (prev) prev.focus();
-        }
-        if (e.key === 'ArrowDown' && ri < rows.length - 1) {
-          const col = Math.min(c, rows[ri+1].start + rows[ri+1].word.length - 1);
-          const below = inputs[ri+1][Math.max(col, rows[ri+1].start)];
-          if (below) below.focus();
-        }
-        if (e.key === 'ArrowUp' && ri > 0) {
-          const col = Math.min(c, rows[ri-1].start + rows[ri-1].word.length - 1);
-          const above = inputs[ri-1][Math.max(col, rows[ri-1].start)];
-          if (above) above.focus();
-        }
-      });
-
-      cellDiv.appendChild(inp);
-      inputs[ri][c] = inp;
-    }
-
-    gridRow.appendChild(cellDiv);
-  }
-
-  puzzleRow.appendChild(gridRow);
-
-  const clueDiv = document.createElement('div');
-  clueDiv.className = 'row-clue';
-  const playerButton = document.createElement('button');
-  playerButton.className = 'clue-player';
-  playerButton.type = 'button';
-  playerButton.title = `Speel liedje voor rij ${ri + 1}`;
-  playerButton.setAttribute('aria-label', `Speel liedje voor rij ${ri + 1}`);
-  playerButton.textContent = '▶';
-  playerButton.addEventListener('click', () => toggleSpotify(row, playerButton));
-  clueDiv.appendChild(playerButton);
-  puzzleRow.appendChild(clueDiv);
-
-  cwEl.appendChild(puzzleRow);
-});
-
+  rows.forEach((row, index) => {
+    const item = document.createElement('li');
+    const playerButton = document.createElement('button');
+    playerButton.className = 'clue-player';
+    playerButton.type = 'button';
+    playerButton.title = `Speel liedje voor nummer ${index + 1}`;
+    playerButton.setAttribute('aria-label', `Speel liedje voor nummer ${index + 1}`);
+    playerButton.textContent = '▶';
+    playerButton.addEventListener('click', () => toggleSpotify(row, playerButton));
+    item.appendChild(playerButton);
+    trackList.appendChild(item);
+  });
 }
 
-renderPuzzle();
+renderPlaylist();
 </script>
