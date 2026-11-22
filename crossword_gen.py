@@ -21,7 +21,7 @@ ROWS = [
     {"length": 9, "start": 4, "artist": "Tate McRae", "spotifyId": "2sFepQNyl1WjpROruP8bJ0"},
     {"length": 9, "start": 4, "artist": "Pommelien Thijs", "spotifyId": "3bxhuc9hkpZpOJFHxq2qri"},
     {"length": 11, "start": 2, "artist": "Frenna", "spotifyId": "4skvJoTBLEYUfS3Z1xvGjs"},
-    {"length": 11, "start": 3, "artist": "LASSA & Mensa", "spotifyId": "0LAQc7pyZaVxo7C6czJ7rz"},
+    {"length": 7, "start": 3, "artist": "Lil' Kleine", "spotifyId": "0JdKB06zZsPXmfvQVeJS35"},
     {"length": 7, "start": 3, "artist": "Ronnie Flex", "spotifyId": "1riPE3NCV1OBmSXqpYiMJY"},
     {"length": 9, "start": 0, "artist": "Bilal Wahid", "spotifyId": "1PHlNckjnBedkWSNhQ6nvr"},
 ]
