@@ -73,7 +73,11 @@
     height: 8mm;
     border: 0.25mm solid transparent;
   }
-  .cell-black { border: none; }
+  .cell-black {
+    border-color: var(--ink);
+    background: var(--ink);
+    print-color-adjust: exact;
+  }
   .cell-white { border-color: #c8906a; background: #fff9f0; }
   .cell-grey { border: 0.45mm solid var(--lantern); background: #e8a830; }
   .row-clue {
