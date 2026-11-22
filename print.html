@@ -140,9 +140,35 @@
   <p class="footer">Schrijf in elk vakje een letter. De gouden kolom vormt samen het geheim woord.</p>
 </main>
 <script>
-async function renderPrint() {
+const fallbackData = {
+  totalCols: 14,
+  secretCol: 6,
+  rows: [
+    { length: 7, start: 3, artist: 'Suzan & Freek' },
+    { length: 9, start: 5, artist: 'Roxy Dekker & Ronnie Flex' },
+    { length: 8, start: 0, artist: 'DIKKE' },
+    { length: 7, start: 0, artist: 'Olivia Rodrigo' },
+    { length: 4, start: 6, artist: 'Justin Bieber' },
+    { length: 4, start: 4, artist: 'Mauvais Djo' },
+    { length: 9, start: 4, artist: 'Tate McRae' },
+    { length: 9, start: 4, artist: 'Pommelien Thijs' },
+    { length: 5, start: 2, artist: 'Frenna' },
+    { length: 11, start: 3, artist: 'LASSA & Mensa' },
+    { length: 7, start: 3, artist: 'Ronnie Flex' },
+    { length: 9, start: 0, artist: 'Bilal Wahid' },
+  ],
+};
+
+async function loadPuzzleData() {
+  if (window.location.protocol === 'file:') return fallbackData;
+
   const response = await fetch('crossword_data.json');
-  const data = await response.json();
+  if (!response.ok) throw new Error('Could not load crossword_data.json');
+  return response.json();
+}
+
+async function renderPrint() {
+  const data = await loadPuzzleData();
   const crossword = document.getElementById('crossword');
 
   data.rows.forEach((row, ri) => {
@@ -186,7 +212,13 @@ async function renderPrint() {
   });
 }
 
-renderPrint();
+renderPrint().catch(error => {
+  console.error('Could not render printable crossword:', error);
+  const message = document.createElement('p');
+  message.className = 'footer';
+  message.textContent = 'De puzzel kon niet worden geladen.';
+  document.querySelector('.sheet').appendChild(message);
+});
 </script>
 </body>
 </html>
