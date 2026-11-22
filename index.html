@@ -59,6 +59,25 @@ h1 {
   line-height: 1.1;
   font-weight: 700;
 }
+.fire-row {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 6px 0 10px;
+  line-height: 1;
+}
+.fire-row span {
+  display: inline-block;
+  font-size: 1.25rem;
+  transform-origin: center bottom;
+  animation: fire-flicker 1s ease-in-out infinite alternate;
+}
+.fire-row span:nth-child(2) { animation-delay: 180ms; }
+.fire-row span:nth-child(3) { animation-delay: 360ms; }
+@keyframes fire-flicker {
+  from { opacity: 0.82; transform: scale(0.92) rotate(-4deg); }
+  to { opacity: 1; transform: scale(1.08) rotate(4deg); }
+}
 header .sub {
   font-size: 0.9rem;
   color: var(--fg-muted);
@@ -132,11 +151,15 @@ header .sub {
   .track-list { max-width: 100%; padding-left: 2.25rem; }
   .track-list li { margin-bottom: 2px; }
 }
+@media (prefers-reduced-motion: reduce) {
+  .fire-row span { animation: none; }
+}
 
 </style>
 
 <header>
   <h1>Wie zijn de Mechelaars?</h1>
+  <div class="fire-row" aria-hidden="true"><span>🔥</span><span>🔥</span><span>🔥</span></div>
   <p class="sub">Druk op ▶ bij een nummer om het liedje te beluisteren. Herken jij het?</p>
   <div class="header-rule"></div>
 </header>
