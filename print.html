@@ -35,7 +35,7 @@
     position: static;
     display: block;
     width: max-content;
-    margin: auto auto 0;
+    margin: 4mm auto 0;
     color: var(--muted);
     text-decoration: none;
     font-size: 6pt;
@@ -61,7 +61,7 @@
     font-family: 'Fredoka', 'Nunito', sans-serif;
     font-size: 24pt;
   }
-  .subtitle { margin: 0; color: var(--muted); font-size: 9pt; }
+  .subtitle { margin: 4mm 0 0; color: var(--muted); font-size: 9pt; }
   .crossword { display: flex; flex-direction: column; gap: 1mm; }
   .puzzle-row { display: flex; align-items: center; }
   .row-num {
@@ -108,13 +108,13 @@
     <div class="lantern-row">🏮 🕯️ 🏮</div>
     <p class="eyebrow">Dropping · Muziekpuzzel</p>
     <h1>Sint Maarten gaat op stap</h1>
-    <p class="subtitle">Vul de liedjes in - de gouden kolom verraadt het geheim</p>
   </header>
   <div class="crossword" id="crossword"></div>
   <a class="qr-link" href="https://dropping-sint-maarten.onrender.com/">
     <img src="dropping-kruiswoord-qr.png" alt="QR-code naar de online muziekpuzzel">
     Scan voor de puzzel
   </a>
+  <p class="subtitle">Vul de liedjes in - de gouden kolom verraadt het geheim</p>
 </main>
 <script>
 const fallbackData = {
