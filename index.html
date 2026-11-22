@@ -188,7 +188,7 @@ header .sub {
   background: rgba(192,57,43,0.10);
 }
 
-/* clues */
+/* playback controls */
 .row-clue {
   font-size: 13px;
   white-space: nowrap;
@@ -196,7 +196,6 @@ header .sub {
   line-height: 34px;
   color: var(--fg);
 }
-.clue-artist { color: var(--fg-muted); font-size: 12px; font-weight: 500; }
 .clue-player {
   appearance: none;
   border: 0;
@@ -205,7 +204,7 @@ header .sub {
   cursor: pointer;
   font-size: 15px;
   line-height: 34px;
-  margin-left: 8px;
+  margin-left: 0;
   padding: 0;
   vertical-align: middle;
 }
@@ -241,7 +240,7 @@ header .sub {
   <div class="lantern-row">🏮 🕯️ 🏮</div>
   <p class="eyebrow">Dropping · Muziekpuzzel</p>
   <h1>Sint Maarten gaat op stap</h1>
-  <p class="sub">Vul de liedjes in — de gouden kolom verraadt het geheim</p>
+  <p class="sub">Vul de liedjes in. Druk op ▶ om een liedje te beluisteren. De gouden kolom verraadt het geheim.</p>
   <div class="header-rule"></div>
 </header>
 
@@ -443,12 +442,11 @@ rows.forEach((row, ri) => {
 
   const clueDiv = document.createElement('div');
   clueDiv.className = 'row-clue';
-  clueDiv.innerHTML = `<span class="clue-artist">${row.artist}</span>`;
   const playerButton = document.createElement('button');
   playerButton.className = 'clue-player';
   playerButton.type = 'button';
-  playerButton.title = `Speel liedje van ${row.artist}`;
-  playerButton.setAttribute('aria-label', `Speel liedje van ${row.artist}, rij ${ri + 1}`);
+  playerButton.title = `Speel liedje voor rij ${ri + 1}`;
+  playerButton.setAttribute('aria-label', `Speel liedje voor rij ${ri + 1}`);
   playerButton.textContent = '▶';
   playerButton.addEventListener('click', () => toggleSpotify(row, playerButton));
   clueDiv.appendChild(playerButton);
