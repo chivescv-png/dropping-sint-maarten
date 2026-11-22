@@ -6,89 +6,88 @@
   "secretCol": 6,
   "rows": [
     {
-      "word": "NIEMAND",
+      "length": 7,
       "start": 3,
       "song": "Niemand",
       "artist": "Suzan & Freek",
       "spotifyId": "2ZodgwtywVovNUNIcKDpbD"
     },
     {
-      "word": "GAANWEWEG",
+      "length": 9,
       "start": 5,
       "song": "Gaan we weg",
       "artist": "Roxy Dekker & Ronnie Flex",
       "spotifyId": "6MUfSTr5MKTgX9oziFxx8c"
     },
     {
-      "word": "GASOLINA",
+      "length": 8,
       "start": 0,
       "song": "Gasolina",
       "artist": "DIKKE",
       "spotifyId": "4BTiunrWSAMGCB4HuvqYJr"
     },
     {
-      "word": "THECURE",
+      "length": 7,
       "start": 0,
       "song": "The Cure",
       "artist": "Olivia Rodrigo",
       "spotifyId": "55pBIZO1cqoldeqpp5WR7H"
     },
     {
-      "word": "BABY",
+      "length": 4,
       "start": 6,
       "song": "Baby",
       "artist": "Justin Bieber",
       "spotifyId": "6epn3r7S14KUqlReYr77hA"
     },
     {
-      "word": "PILE",
+      "length": 4,
       "start": 4,
       "song": "Pile",
       "artist": "Mauvais Djo",
       "spotifyId": "0PMhBcbq0a5EDngAlVQLAy"
     },
     {
-      "word": "HOUSEWIFE",
+      "length": 9,
       "start": 4,
       "song": "Housewife",
       "artist": "Tate McRae",
       "spotifyId": "2sFepQNyl1WjpROruP8bJ0"
     },
     {
-      "word": "CASSANDRA",
+      "length": 9,
       "start": 4,
       "song": "Cassandra",
       "artist": "Pommelien Thijs",
       "spotifyId": "3bxhuc9hkpZpOJFHxq2qri"
     },
     {
-      "word": "GIRLS",
+      "length": 5,
       "start": 2,
       "song": "Pretty Girls",
       "artist": "Frenna",
       "spotifyId": "4skvJoTBLEYUfS3Z1xvGjs"
     },
     {
-      "word": "DUREGEINTJE",
+      "length": 11,
       "start": 3,
       "song": "Dure Geintje",
       "artist": "LASSA & Mensa",
       "spotifyId": "0LAQc7pyZaVxo7C6czJ7rz"
     },
     {
-      "word": "ENERGIE",
+      "length": 7,
       "start": 3,
       "song": "Energie",
       "artist": "Ronnie Flex",
       "spotifyId": "1riPE3NCV1OBmSXqpYiMJY"
     },
     {
-      "word": "OVERDOSIS",
+      "length": 9,
       "start": 0,
       "song": "Overdosis",
       "artist": "Bilal Wahid",
       "spotifyId": "1PHlNckjnBedkWSNhQ6nvr"
     }
-  ],
-  "secretWord": "MANEBLUSSERS"
+  ]
 }

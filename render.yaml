@@ -2,8 +2,8 @@ services:
   - type: web
     name: dropping-sint-maarten
     runtime: static
-    staticPublishPath: .
-    buildCommand: "python3 crossword_gen.py"
+    staticPublishPath: ./public
+    buildCommand: "python3 crossword_gen.py && mkdir -p public && cp index.html print.html dropping-kruiswoord-qr.png crossword_data.json public/"
     headers:
       - path: /*
         name: Cache-Control
