@@ -77,7 +77,7 @@
     height: 8mm;
     border: 0.25mm solid transparent;
   }
-  .cell-black { border-color: #e0d8d0; background: #fff; }
+  .cell-spacer { visibility: hidden; }
   .cell-white { border-color: #c8906a; background: #fff9f0; }
   .cell-grey { border: 0.45mm solid var(--lantern); background: #e8a830; }
   .row-clue {
@@ -166,7 +166,7 @@ async function renderPrint() {
       const cell = document.createElement('div');
       cell.className = 'cell';
       if (c < row.start || c > wordEnd) {
-        cell.classList.add('cell-black');
+        cell.classList.add('cell-spacer');
       } else {
         cell.classList.add(c === data.secretCol ? 'cell-grey' : 'cell-white');
       }
