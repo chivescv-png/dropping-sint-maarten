@@ -1,0 +1,429 @@
+<title>Sint Maarten gaat op stap</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* Sint Maarten palette — lantern warmth: deep red, amber, warm white */
+:root {
+  --bg:          #fdf6ec;
+  --fg:          #2c1a0a;
+  --fg-muted:    #8a5a2e;
+  --accent:      #c0392b;
+  --accent2:     #e07b00;
+  --cell-black:  #2c1a0a;
+  --cell-grey:   #e8a830;
+  --cell-grey-fg:#1a0e00;
+  --cell-white:  #fff9f0;
+  --cell-border: #c8906a;
+  --secret-bg:   #fde8c0;
+  --header-rule: #e8a830;
+  --lantern:     #e07b00;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:          #1c0e04;
+    --fg:          #f5e0c0;
+    --fg-muted:    #b08050;
+    --accent:      #e05040;
+    --accent2:     #d08020;
+    --cell-black:  #100802;
+    --cell-grey:   #7a4a10;
+    --cell-grey-fg:#fde8c0;
+    --cell-white:  #281808;
+    --cell-border: #6a3820;
+    --secret-bg:   #221008;
+    --header-rule: #7a4a10;
+    --lantern:     #d08020;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg:          #1c0e04;
+  --fg:          #f5e0c0;
+  --fg-muted:    #b08050;
+  --accent:      #e05040;
+  --accent2:     #d08020;
+  --cell-black:  #100802;
+  --cell-grey:   #7a4a10;
+  --cell-grey-fg:#fde8c0;
+  --cell-white:  #281808;
+  --cell-border: #6a3820;
+  --secret-bg:   #221008;
+  --header-rule: #7a4a10;
+  --lantern:     #d08020;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'Nunito', system-ui, sans-serif;
+  padding-left:  max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 32px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* ── Header ── */
+header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+.lantern-row {
+  font-size: 2rem;
+  margin-bottom: 4px;
+  letter-spacing: 0.1em;
+}
+header .eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+h1 {
+  font-family: 'Fredoka', 'Nunito', system-ui, sans-serif;
+  font-size: clamp(1.9rem, 6vw, 3rem);
+  color: var(--accent);
+  margin: 0 0 6px;
+  text-wrap: balance;
+  line-height: 1.1;
+  font-weight: 700;
+}
+header .sub {
+  font-size: 0.9rem;
+  color: var(--fg-muted);
+  font-weight: 500;
+}
+.header-rule {
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  margin: 14px auto 0;
+  border-radius: 2px;
+}
+
+/* ── Crossword layout ── */
+.crossword-scroll { overflow-x: auto; }
+
+.crossword {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: max-content;
+  margin: 0 auto;
+}
+
+.puzzle-row {
+  display: flex;
+  align-items: center;
+}
+
+.row-num {
+  width: 26px;
+  text-align: right;
+  padding-right: 6px;
+  font-size: 11px;
+  color: var(--fg-muted);
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+  line-height: 34px;
+  font-weight: 600;
+}
+
+.grid-row {
+  display: flex;
+  gap: 1.5px;
+}
+
+.cell {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  position: relative;
+}
+.cell-black {
+  background: var(--cell-black);
+  border-radius: 2px;
+}
+.cell-white {
+  background: var(--cell-white);
+  border: 1.5px solid var(--cell-border);
+  border-radius: 1px;
+}
+.cell-grey {
+  background: var(--cell-grey);
+  border: 1.5px solid var(--lantern);
+  border-radius: 1px;
+}
+.cell-white, .cell-grey {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cell input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: transparent;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--fg);
+  outline: none;
+  padding: 0;
+  font-family: 'Nunito', system-ui, sans-serif;
+  caret-color: var(--accent);
+  -webkit-appearance: none;
+}
+.cell-grey input {
+  color: var(--cell-grey-fg);
+  font-weight: 800;
+}
+.cell input:focus {
+  background: rgba(192,57,43,0.10);
+}
+
+/* clues */
+.row-clue {
+  font-size: 13px;
+  white-space: nowrap;
+  padding-left: 10px;
+  line-height: 34px;
+  color: var(--fg);
+}
+.clue-song { font-weight: 700; }
+.clue-dash { color: var(--fg-muted); margin: 0 4px; }
+.clue-artist { color: var(--fg-muted); font-size: 12px; font-weight: 500; }
+
+/* ── Secret word display ── */
+.secret-section {
+  margin-top: 32px;
+  text-align: center;
+}
+.secret-label {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+.secret-row {
+  display: flex;
+  justify-content: center;
+  gap: 3px;
+  flex-wrap: wrap;
+}
+.secret-cell {
+  width: 34px;
+  height: 34px;
+  background: var(--secret-bg);
+  border: 1.5px solid var(--cell-border);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--fg-muted);
+  font-family: 'Nunito', system-ui, sans-serif;
+  transition: background 0.25s, color 0.25s, border-color 0.25s;
+}
+.secret-cell.has-letter { color: var(--fg); }
+.secret-cell.correct {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.reveal-msg {
+  margin-top: 14px;
+  font-size: 1.05rem;
+  font-family: 'Fredoka', 'Nunito', system-ui, sans-serif;
+  font-weight: 600;
+  color: var(--accent);
+  min-height: 1.5em;
+  transition: opacity 0.3s;
+}
+
+/* ── Print ── */
+@media print {
+  body { background: white !important; color: black !important; }
+  .cell-black { background: white !important; border: none !important; }
+  .cell-grey  { background: #f0c060 !important; print-color-adjust: exact; }
+  .cell-white { background: white !important; }
+  .reveal-msg { display: none; }
+  .lantern-row { display: none; }
+}
+</style>
+
+<header>
+  <div class="lantern-row">🏮 🕯️ 🏮</div>
+  <p class="eyebrow">Dropping · Muziekpuzzel</p>
+  <h1>Sint Maarten gaat op stap</h1>
+  <p class="sub">Vul de liedjes in — de gouden kolom verraadt het geheim</p>
+  <div class="header-rule"></div>
+</header>
+
+<div class="crossword-scroll">
+  <div class="crossword" id="cw"></div>
+</div>
+
+<div class="secret-section">
+  <div class="secret-label">Geheim woord</div>
+  <div class="secret-row" id="secretRow"></div>
+  <div class="reveal-msg" id="revealMsg"></div>
+</div>
+
+<script>
+const TOTAL_COLS = 14;
+const SECRET_COL = 6;
+
+const rows = [
+  { word: 'NIEMAND',     start: 3, song: 'Niemand',       artist: 'Susan & Freek' },
+  { word: 'GAANWEWEG',   start: 5, song: 'Gaan we weg',   artist: 'Roxy Dekker & Ronnie Flex' },
+  { word: 'GASOLINA',    start: 0, song: 'Gasolina',      artist: 'DIKKE' },
+  { word: 'THECURE',     start: 0, song: 'The Cure',      artist: 'Olivia Rodrigo' },
+  { word: 'BABY',        start: 6, song: 'Baby',          artist: 'Justin Bieber' },
+  { word: 'PILE',        start: 4, song: 'Pile',          artist: 'Mauvais Djo' },
+  { word: 'HOUSEWIFE',   start: 4, song: 'Housewife',     artist: 'Tate McRae' },
+  { word: 'CASSANDRA',   start: 4, song: 'Cassandra',     artist: 'Pommelien Thijs' },
+  { word: 'GIRLS',       start: 2, song: 'Pretty Girls',  artist: 'Frenna' },
+  { word: 'DUREGEINTJE', start: 3, song: 'Dure Geintje',  artist: 'LASSA & Mensa' },
+  { word: 'ENERGIE',     start: 3, song: 'Energie',       artist: 'Ronnie Flex' },
+  { word: 'OVERDOSIS',   start: 0, song: 'Overdosis',     artist: 'Bilal Wahid' },
+];
+
+const secretWord = rows.map(r => r.word[SECRET_COL - r.start]).join('');
+// MANEBLUSSERS
+
+const inputs = rows.map(() => new Array(TOTAL_COLS).fill(null));
+
+const secretCells = [];
+const secretRowEl = document.getElementById('secretRow');
+secretWord.split('').forEach(() => {
+  const div = document.createElement('div');
+  div.className = 'secret-cell';
+  secretRowEl.appendChild(div);
+  secretCells.push(div);
+});
+
+function updateSecret() {
+  let allCorrect = true;
+  rows.forEach((row, ri) => {
+    const inp = inputs[ri][SECRET_COL];
+    const val = inp ? inp.value.toUpperCase() : '';
+    const expected = secretWord[ri];
+    const sc = secretCells[ri];
+    sc.textContent = val;
+    if (val === expected) {
+      sc.classList.add('correct');
+      sc.classList.remove('has-letter');
+    } else {
+      sc.classList.remove('correct');
+      sc.classList.toggle('has-letter', !!val);
+      allCorrect = false;
+    }
+  });
+  document.getElementById('revealMsg').textContent =
+    allCorrect ? `🏮 ${secretWord} — Goed zo, lantaarndragers!` : '';
+}
+
+const cwEl = document.getElementById('cw');
+
+rows.forEach((row, ri) => {
+  const puzzleRow = document.createElement('div');
+  puzzleRow.className = 'puzzle-row';
+
+  const numDiv = document.createElement('div');
+  numDiv.className = 'row-num';
+  numDiv.textContent = ri + 1;
+  puzzleRow.appendChild(numDiv);
+
+  const gridRow = document.createElement('div');
+  gridRow.className = 'grid-row';
+
+  const wordEnd = row.start + row.word.length - 1;
+
+  for (let c = 0; c < TOTAL_COLS; c++) {
+    const cellDiv = document.createElement('div');
+    cellDiv.className = 'cell';
+
+    if (c < row.start || c > wordEnd) {
+      cellDiv.classList.add('cell-black');
+    } else {
+      const isSecret = c === SECRET_COL;
+      cellDiv.classList.add(isSecret ? 'cell-grey' : 'cell-white');
+
+      const inp = document.createElement('input');
+      inp.type = 'text';
+      inp.maxLength = 1;
+      inp.autocomplete = 'off';
+      inp.spellcheck = false;
+      inp.inputMode = 'text';
+      inp.setAttribute('aria-label', `Rij ${ri + 1}, cel ${c - row.start + 1}`);
+
+      inp.addEventListener('focus', () => inp.select());
+
+      inp.addEventListener('input', () => {
+        inp.value = inp.value.toUpperCase().replace(/[^A-Z]/g, '').slice(-1);
+        updateSecret();
+        if (inp.value && c < wordEnd) {
+          const next = inputs[ri][c + 1];
+          if (next) { next.focus(); next.select(); }
+        }
+      });
+
+      inp.addEventListener('keydown', e => {
+        if (e.key === 'Backspace' && !inp.value && c > row.start) {
+          const prev = inputs[ri][c - 1];
+          if (prev) { prev.value = ''; prev.focus(); prev.select(); updateSecret(); }
+        }
+        if (e.key === 'ArrowRight' && c < wordEnd) {
+          const next = inputs[ri][c + 1];
+          if (next) next.focus();
+        }
+        if (e.key === 'ArrowLeft' && c > row.start) {
+          const prev = inputs[ri][c - 1];
+          if (prev) prev.focus();
+        }
+        if (e.key === 'ArrowDown' && ri < rows.length - 1) {
+          const col = Math.min(c, rows[ri+1].start + rows[ri+1].word.length - 1);
+          const below = inputs[ri+1][Math.max(col, rows[ri+1].start)];
+          if (below) below.focus();
+        }
+        if (e.key === 'ArrowUp' && ri > 0) {
+          const col = Math.min(c, rows[ri-1].start + rows[ri-1].word.length - 1);
+          const above = inputs[ri-1][Math.max(col, rows[ri-1].start)];
+          if (above) above.focus();
+        }
+      });
+
+      cellDiv.appendChild(inp);
+      inputs[ri][c] = inp;
+    }
+
+    gridRow.appendChild(cellDiv);
+  }
+
+  puzzleRow.appendChild(gridRow);
+
+  const clueDiv = document.createElement('div');
+  clueDiv.className = 'row-clue';
+  clueDiv.innerHTML =
+    `<span class="clue-song">${row.song}</span>` +
+    `<span class="clue-dash">—</span>` +
+    `<span class="clue-artist">${row.artist}</span>`;
+  puzzleRow.appendChild(clueDiv);
+
+  cwEl.appendChild(puzzleRow);
+});
+</script>
