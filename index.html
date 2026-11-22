@@ -1,4 +1,5 @@
 <title>Wie zijn de Mechelaars?</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
 
 <style>
@@ -62,6 +63,9 @@ header .sub {
   font-size: 0.9rem;
   color: var(--fg-muted);
   font-weight: 500;
+  line-height: 1.5;
+  max-width: 38rem;
+  margin: 0 auto;
 }
 .header-rule {
   width: 60px;
@@ -96,9 +100,14 @@ header .sub {
   min-height: 44px;
   padding: 0;
 }
-.clue-player:hover, .clue-player:focus-visible {
+.clue-player:hover {
   color: var(--accent2);
-  outline: none;
+}
+.clue-player:focus-visible {
+  color: var(--accent2);
+  outline: 2px solid var(--accent2);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 .clue-player.playing { color: var(--accent); }
 
@@ -112,6 +121,16 @@ header .sub {
   pointer-events: none;
   opacity: 0;
   z-index: -1;
+}
+
+@media (max-width: 600px) {
+  body { padding-block: 20px; }
+  header { margin-bottom: 20px; }
+  h1 { font-size: clamp(1.7rem, 8vw, 2.2rem); }
+  header .sub { padding: 0 4px; }
+  .header-rule { margin-top: 10px; }
+  .track-list { max-width: 100%; padding-left: 2.25rem; }
+  .track-list li { margin-bottom: 2px; }
 }
 
 </style>
