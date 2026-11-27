@@ -199,10 +199,41 @@ async function loadPuzzle() {
 }
 
 let spotifyController = null;
-let pendingUri = null;
 let currentWord = null;
 let currentButton = null;
-let autoPlayPending = false;
+let spotifyStatus = 'loading';
+let spotifyLoadTimeout = null;
+const playerButtons = [];
+
+function updatePlayerButtons() {
+  playerButtons.forEach(({ button, index }) => {
+    button.disabled = spotifyStatus === 'loading';
+    button.textContent = spotifyStatus === 'loading'
+      ? 'Loading...'
+      : spotifyStatus === 'unavailable'
+        ? 'Open Spotify'
+        : '▶';
+    button.title = spotifyStatus === 'loading'
+      ? 'Spotify is loading'
+      : `Speel liedje voor nummer ${index + 1}`;
+    button.setAttribute(
+      'aria-label',
+      spotifyStatus === 'loading'
+        ? 'Spotify is loading'
+        : spotifyStatus === 'unavailable'
+          ? `Open liedje voor nummer ${index + 1} in Spotify`
+          : `Speel liedje voor nummer ${index + 1}`
+    );
+  });
+}
+
+function markSpotifyUnavailable(error) {
+  if (spotifyController) return;
+  spotifyStatus = 'unavailable';
+  window.clearTimeout(spotifyLoadTimeout);
+  console.error(error);
+  updatePlayerButtons();
+}
 
 window.onSpotifyIframeApiReady = (IFrameAPI) => {
   IFrameAPI.createController(
@@ -210,17 +241,9 @@ window.onSpotifyIframeApiReady = (IFrameAPI) => {
     { uri: 'spotify:track:2ZodgwtywVovNUNIcKDpbD', height: '80' },
     (controller) => {
       spotifyController = controller;
-      controller.addListener('playback_update', (event) => {
-        if (autoPlayPending && event.data.isPaused && !event.data.isBuffering) {
-          autoPlayPending = false;
-          controller.play();
-        }
-      });
-      if (pendingUri) {
-        autoPlayPending = true;
-        controller.loadUri(pendingUri);
-        pendingUri = null;
-      }
+      spotifyStatus = 'ready';
+      window.clearTimeout(spotifyLoadTimeout);
+      updatePlayerButtons();
     }
   );
 };
@@ -229,6 +252,11 @@ window.onSpotifyIframeApiReady = (IFrameAPI) => {
   const script = document.createElement('script');
   script.src = 'https://open.spotify.com/embed/iframe-api/v1';
   script.async = true;
+  script.onerror = () => markSpotifyUnavailable(new Error('Could not load the Spotify player'));
+  spotifyLoadTimeout = window.setTimeout(
+    () => markSpotifyUnavailable(new Error('Spotify player initialization timed out')),
+    15000
+  );
   document.head.appendChild(script);
 })();
 
@@ -240,10 +268,15 @@ function toggleSpotify(row, button) {
   }
 
   const uri = `spotify:track:${row.spotifyId}`;
+  if (!spotifyController) {
+    if (spotifyStatus === 'unavailable') {
+      window.open(`https://open.spotify.com/track/${row.spotifyId}`, '_blank', 'noopener,noreferrer');
+    }
+    return;
+  }
+
   if (currentWord === row.spotifyId) {
-    autoPlayPending = false;
-    pendingUri = null;
-    spotifyController?.pause();
+    spotifyController.pause();
     button.textContent = '▶';
     button.classList.remove('playing');
     currentWord = null;
@@ -256,13 +289,8 @@ function toggleSpotify(row, button) {
     currentButton.classList.remove('playing');
   }
 
-  if (spotifyController) {
-    autoPlayPending = true;
-    spotifyController.loadUri(uri);
-    spotifyController.play();
-  } else {
-    pendingUri = uri;
-  }
+  spotifyController.loadUri(uri);
+  spotifyController.play();
 
   button.textContent = '■';
   button.classList.add('playing');
@@ -279,10 +307,9 @@ async function renderPlaylist() {
     const playerButton = document.createElement('button');
     playerButton.className = 'clue-player';
     playerButton.type = 'button';
-    playerButton.title = `Speel liedje voor nummer ${index + 1}`;
-    playerButton.setAttribute('aria-label', `Speel liedje voor nummer ${index + 1}`);
-    playerButton.textContent = '▶';
     playerButton.addEventListener('click', () => toggleSpotify(row, playerButton));
+    playerButtons.push({ button: playerButton, index });
+    updatePlayerButtons();
     item.appendChild(playerButton);
     trackList.appendChild(item);
   });
