@@ -2,80 +2,92 @@
   "title": "Sint Maarten gaat op stap",
   "eyebrow": "Dropping · Muziekpuzzel",
   "subtitle": "Vul de liedjes in - de gouden kolom verraadt het geheim",
-  "totalCols": 14,
-  "secretCol": 6,
+  "totalCols": 20,
+  "secretCol": 12,
   "rows": [
     {
       "length": 7,
-      "start": 3,
+      "start": 9,
       "artist": "Suzan & Freek",
-      "spotifyId": "2ZodgwtywVovNUNIcKDpbD"
+      "spotifyId": "2ZodgwtywVovNUNIcKDpbD",
+      "appleId": "1845874656"
     },
     {
       "length": 9,
-      "start": 5,
+      "start": 11,
       "artist": "Roxy Dekker & Ronnie Flex",
-      "spotifyId": "6MUfSTr5MKTgX9oziFxx8c"
+      "spotifyId": "6MUfSTr5MKTgX9oziFxx8c",
+      "appleId": "1753741796"
     },
     {
       "length": 8,
-      "start": 0,
+      "start": 6,
       "artist": "DIKKE",
-      "spotifyId": "4BTiunrWSAMGCB4HuvqYJr"
+      "spotifyId": "4BTiunrWSAMGCB4HuvqYJr",
+      "appleId": "1638882049"
     },
     {
       "length": 7,
-      "start": 0,
-      "artist": "Olivia Rodrigo",
-      "spotifyId": "55pBIZO1cqoldeqpp5WR7H"
-    },
-    {
-      "length": 4,
       "start": 6,
-      "artist": "Justin Bieber",
-      "spotifyId": "6epn3r7S14KUqlReYr77hA"
+      "artist": "Olivia Rodrigo",
+      "spotifyId": "55pBIZO1cqoldeqpp5WR7H",
+      "appleId": "6771598356"
     },
     {
       "length": 4,
-      "start": 4,
+      "start": 12,
+      "artist": "Justin Bieber",
+      "spotifyId": "6epn3r7S14KUqlReYr77hA",
+      "appleId": "1440803626"
+    },
+    {
+      "length": 4,
+      "start": 10,
       "artist": "Mauvais Djo",
-      "spotifyId": "0PMhBcbq0a5EDngAlVQLAy"
+      "spotifyId": "0PMhBcbq0a5EDngAlVQLAy",
+      "appleId": "6813131671"
     },
     {
       "length": 9,
-      "start": 4,
+      "start": 10,
       "artist": "Tate McRae",
-      "spotifyId": "2sFepQNyl1WjpROruP8bJ0"
+      "spotifyId": "2sFepQNyl1WjpROruP8bJ0",
+      "appleId": "6822497774"
     },
     {
       "length": 9,
-      "start": 4,
+      "start": 10,
       "artist": "Pommelien Thijs",
-      "spotifyId": "3bxhuc9hkpZpOJFHxq2qri"
+      "spotifyId": "3bxhuc9hkpZpOJFHxq2qri",
+      "appleId": "1829654536"
     },
     {
       "length": 11,
       "start": 2,
       "artist": "Frenna",
-      "spotifyId": "4skvJoTBLEYUfS3Z1xvGjs"
+      "spotifyId": "4skvJoTBLEYUfS3Z1xvGjs",
+      "appleId": "1808950758"
     },
     {
       "length": 7,
-      "start": 3,
+      "start": 9,
       "artist": "Lil' Kleine",
-      "spotifyId": "0JdKB06zZsPXmfvQVeJS35"
+      "spotifyId": "0JdKB06zZsPXmfvQVeJS35",
+      "appleId": "1440878599"
     },
     {
       "length": 7,
-      "start": 3,
+      "start": 9,
       "artist": "Ronnie Flex",
-      "spotifyId": "1riPE3NCV1OBmSXqpYiMJY"
+      "spotifyId": "1riPE3NCV1OBmSXqpYiMJY",
+      "appleId": "1440899681"
     },
     {
       "length": 9,
-      "start": 0,
+      "start": 6,
       "artist": "Bilal Wahid",
-      "spotifyId": "1PHlNckjnBedkWSNhQ6nvr"
+      "spotifyId": "1PHlNckjnBedkWSNhQ6nvr",
+      "appleId": "1831696505"
     }
   ]
 }

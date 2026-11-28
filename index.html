@@ -1,3 +1,6 @@
+<!DOCTYPE html>
+<html lang="nl">
+<meta charset="UTF-8">
 <title>Wie zijn de Mechelaars?</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -118,9 +121,10 @@ header .sub {
   min-width: 44px;
   min-height: 44px;
   padding: 0;
+  -webkit-tap-highlight-color: transparent;
 }
-.clue-player:hover {
-  color: var(--accent2);
+@media (hover: hover) {
+  .clue-player:hover { color: var(--accent2); }
 }
 .clue-player:focus-visible {
   color: var(--accent2);
@@ -129,18 +133,6 @@ header .sub {
   border-radius: 4px;
 }
 .clue-player.playing { color: var(--accent); }
-
-#spotify-hidden {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  width: 300px;
-  height: 80px;
-  overflow: hidden;
-  pointer-events: none;
-  opacity: 0;
-  z-index: -1;
-}
 
 @media (max-width: 600px) {
   body { padding-block: 20px; }
@@ -166,27 +158,35 @@ header .sub {
 
 <ol class="track-list" id="track-list"></ol>
 
-<div id="spotify-hidden" aria-hidden="true">
-  <div id="spotify-embed-target"></div>
-</div>
+<audio id="clip-audio" preload="none" playsinline></audio>
 
 <script>
+// Audio comes from Apple's 30-second previews, played in our own <audio>
+// element. Nothing about the song (title, artist, artwork) is ever shown.
 const fallbackData = {
   rows: [
-    { artist: 'Suzan & Freek', spotifyId: '2ZodgwtywVovNUNIcKDpbD' },
-    { artist: 'Roxy Dekker & Ronnie Flex', spotifyId: '6MUfSTr5MKTgX9oziFxx8c' },
-    { artist: 'DIKKE', spotifyId: '4BTiunrWSAMGCB4HuvqYJr' },
-    { artist: 'Olivia Rodrigo', spotifyId: '55pBIZO1cqoldeqpp5WR7H' },
-    { artist: 'Justin Bieber', spotifyId: '6epn3r7S14KUqlReYr77hA' },
-    { artist: 'Mauvais Djo', spotifyId: '0PMhBcbq0a5EDngAlVQLAy' },
-    { artist: 'Tate McRae', spotifyId: '2sFepQNyl1WjpROruP8bJ0' },
-    { artist: 'Pommelien Thijs', spotifyId: '3bxhuc9hkpZpOJFHxq2qri' },
-    { artist: 'Frenna', spotifyId: '4skvJoTBLEYUfS3Z1xvGjs' },
-    { artist: "Lil' Kleine", spotifyId: '0JdKB06zZsPXmfvQVeJS35' },
-    { artist: 'Ronnie Flex', spotifyId: '1riPE3NCV1OBmSXqpYiMJY' },
-    { artist: 'Bilal Wahid', spotifyId: '1PHlNckjnBedkWSNhQ6nvr' },
+    { appleId: '1845874656' },
+    { appleId: '1753741796' },
+    { appleId: '1638882049' },
+    { appleId: '6771598356' },
+    { appleId: '1440803626' },
+    { appleId: '6813131671' },
+    { appleId: '6822497774' },
+    { appleId: '1829654536' },
+    { appleId: '1808950758' },
+    { appleId: '1440878599' },
+    { appleId: '1440899681' },
+    { appleId: '1831696505' },
   ],
 };
+
+const audio = document.getElementById('clip-audio');
+const playerButtons = [];   // { button, index, row }
+let rows = [];
+let previewUrls = {};       // appleId -> preview URL
+let status = 'loading';     // 'loading' | 'ready' | 'error'
+let current = null;         // entry from playerButtons that owns the audio
+let pending = false;        // play() called, waiting for 'playing'
 
 async function loadPuzzle() {
   try {
@@ -198,121 +198,112 @@ async function loadPuzzle() {
   }
 }
 
-let spotifyController = null;
-let currentWord = null;
-let currentButton = null;
-let spotifyStatus = 'loading';
-let spotifyLoadTimeout = null;
-const playerButtons = [];
-
-function updatePlayerButtons() {
-  playerButtons.forEach(({ button, index }) => {
-    button.disabled = spotifyStatus === 'loading';
-    button.textContent = spotifyStatus === 'loading'
-      ? 'Loading...'
-      : spotifyStatus === 'unavailable'
-        ? 'Open Spotify'
-        : '▶';
-    button.title = spotifyStatus === 'loading'
-      ? 'Spotify is loading'
-      : `Speel liedje voor nummer ${index + 1}`;
-    button.setAttribute(
-      'aria-label',
-      spotifyStatus === 'loading'
-        ? 'Spotify is loading'
-        : spotifyStatus === 'unavailable'
-          ? `Open liedje voor nummer ${index + 1} in Spotify`
-          : `Speel liedje voor nummer ${index + 1}`
+async function loadPreviews() {
+  status = 'loading';
+  render();
+  const ids = rows.map(r => r.appleId).filter(Boolean).join(',');
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 12000);
+  try {
+    const response = await fetch(
+      `https://itunes.apple.com/lookup?id=${ids}&country=BE&entity=song`,
+      { signal: controller.signal }
     );
+    if (!response.ok) throw new Error(`Lookup failed: ${response.status}`);
+    const { results } = await response.json();
+    previewUrls = {};
+    results.forEach(r => {
+      if (r.previewUrl) previewUrls[String(r.trackId)] = r.previewUrl;
+    });
+    status = 'ready';
+  } catch (error) {
+    console.error(error);
+    status = 'error';
+  } finally {
+    clearTimeout(timeout);
+    render();
+  }
+}
+
+function render() {
+  playerButtons.forEach(entry => {
+    const { button, index, row } = entry;
+    const n = index + 1;
+    let text, label;
+    if (status === 'loading') {
+      text = '…'; label = 'Liedjes worden geladen';
+    } else if (status === 'error' || !previewUrls[row.appleId]) {
+      text = '↻'; label = `Opnieuw proberen voor nummer ${n}`;
+    } else if (entry === current && pending) {
+      text = '…'; label = `Nummer ${n} wordt geladen`;
+    } else if (entry === current && !audio.paused) {
+      text = '■'; label = `Stop nummer ${n}`;
+    } else {
+      text = '▶'; label = `Speel liedje voor nummer ${n}`;
+    }
+    button.disabled = status === 'loading';
+    button.textContent = text;
+    button.title = label;
+    button.setAttribute('aria-label', label);
+    button.classList.toggle('playing', entry === current && !audio.paused);
   });
 }
 
-function markSpotifyUnavailable(error) {
-  if (spotifyController) return;
-  spotifyStatus = 'unavailable';
-  window.clearTimeout(spotifyLoadTimeout);
-  console.error(error);
-  updatePlayerButtons();
+function onButton(entry) {
+  const url = previewUrls[entry.row.appleId];
+  if (!url) {
+    loadPreviews();
+    return;
+  }
+
+  if (entry === current && !audio.paused) {
+    audio.pause();
+    return;
+  }
+
+  if (entry !== current) {
+    audio.src = url;
+    current = entry;
+  }
+  pending = true;
+  render();
+  // play() must be called synchronously inside the tap handler for iOS.
+  const p = audio.play();
+  if (p && p.catch) {
+    p.catch(error => {
+      console.error(error);
+      pending = false;
+      render();
+    });
+  }
 }
 
-window.onSpotifyIframeApiReady = (IFrameAPI) => {
-  IFrameAPI.createController(
-    document.getElementById('spotify-embed-target'),
-    { uri: 'spotify:track:2ZodgwtywVovNUNIcKDpbD', height: '80' },
-    (controller) => {
-      spotifyController = controller;
-      spotifyStatus = 'ready';
-      window.clearTimeout(spotifyLoadTimeout);
-      updatePlayerButtons();
-    }
-  );
-};
-
-(function loadSpotifyIframeApi() {
-  const script = document.createElement('script');
-  script.src = 'https://open.spotify.com/embed/iframe-api/v1';
-  script.async = true;
-  script.onerror = () => markSpotifyUnavailable(new Error('Could not load the Spotify player'));
-  spotifyLoadTimeout = window.setTimeout(
-    () => markSpotifyUnavailable(new Error('Spotify player initialization timed out')),
-    15000
-  );
-  document.head.appendChild(script);
-})();
-
-function toggleSpotify(row, button) {
-  if (!row.spotifyId) {
-    const query = encodeURIComponent(row.artist);
-    window.open(`https://open.spotify.com/search/${query}`, '_blank', 'noopener,noreferrer');
-    return;
-  }
-
-  const uri = `spotify:track:${row.spotifyId}`;
-  if (!spotifyController) {
-    if (spotifyStatus === 'unavailable') {
-      window.open(`https://open.spotify.com/track/${row.spotifyId}`, '_blank', 'noopener,noreferrer');
-    }
-    return;
-  }
-
-  if (currentWord === row.spotifyId) {
-    spotifyController.pause();
-    button.textContent = '▶';
-    button.classList.remove('playing');
-    currentWord = null;
-    currentButton = null;
-    return;
-  }
-
-  if (currentButton) {
-    currentButton.textContent = '▶';
-    currentButton.classList.remove('playing');
-  }
-
-  spotifyController.loadUri(uri);
-  spotifyController.play();
-
-  button.textContent = '■';
-  button.classList.add('playing');
-  currentWord = row.spotifyId;
-  currentButton = button;
-}
+audio.addEventListener('playing', () => { pending = false; render(); });
+audio.addEventListener('pause', () => { pending = false; render(); });
+audio.addEventListener('ended', () => { pending = false; audio.currentTime = 0; render(); });
+audio.addEventListener('error', () => {
+  console.error('Audio error', audio.error);
+  pending = false;
+  render();
+});
 
 async function renderPlaylist() {
-  const { rows } = await loadPuzzle();
+  ({ rows } = await loadPuzzle());
   const trackList = document.getElementById('track-list');
 
   rows.forEach((row, index) => {
     const item = document.createElement('li');
-    const playerButton = document.createElement('button');
-    playerButton.className = 'clue-player';
-    playerButton.type = 'button';
-    playerButton.addEventListener('click', () => toggleSpotify(row, playerButton));
-    playerButtons.push({ button: playerButton, index });
-    updatePlayerButtons();
-    item.appendChild(playerButton);
+    const button = document.createElement('button');
+    button.className = 'clue-player';
+    button.type = 'button';
+    const entry = { button, index, row };
+    button.addEventListener('click', () => onButton(entry));
+    playerButtons.push(entry);
+    item.appendChild(button);
     trackList.appendChild(item);
   });
+
+  await loadPreviews();
 }
 
 renderPlaylist();
